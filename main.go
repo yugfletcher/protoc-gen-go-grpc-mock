@@ -6,6 +6,7 @@ import (
 
 	"go.uber.org/mock/mockgen/model"
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/types/descriptorpb"
 	"google.golang.org/protobuf/types/pluginpb"
 )
 
@@ -74,22 +75,48 @@ func makeUnaryMethods(m *protogen.Method) (*model.Method, *model.Method) {
 		Name: m.GoName,
 		In: []*model.Parameter{
 			{Name: "ctx", Type: &model.NamedType{Package: "context", Type: "Context"}},
-			{Name: "in", Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName}}},
+			{
+				Name: "in", Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName,
+					},
+				},
+			},
 		},
 		Out: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName,
+					},
+				},
+			},
 			{Type: model.PredeclaredType("error")},
 		},
-		Variadic: &model.Parameter{Name: "opts", Type: &model.NamedType{Package: "google.golang.org/grpc", Type: "CallOption"}},
+		Variadic: &model.Parameter{
+			Name: "opts", Type: &model.NamedType{Package: "google.golang.org/grpc", Type: "CallOption"},
+		},
 	}
 	serverMethod := &model.Method{
 		Name: m.GoName,
 		In: []*model.Parameter{
 			{Name: "ctx", Type: &model.NamedType{Package: "context", Type: "Context"}},
-			{Name: "in", Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName}}},
+			{
+				Name: "in", Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName,
+					},
+				},
+			},
 		},
 		Out: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName,
+					},
+				},
+			},
 			{Type: model.PredeclaredType("error")},
 		},
 	}
@@ -103,18 +130,32 @@ func makeServerStreamMethods(m *protogen.Method) (*model.Method, *model.Method, 
 		Name: m.GoName,
 		In: []*model.Parameter{
 			{Name: "ctx", Type: &model.NamedType{Package: "context", Type: "Context"}},
-			{Name: "in", Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName}}},
+			{
+				Name: "in", Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName,
+					},
+				},
+			},
 		},
 		Out: []*model.Parameter{
 			{Type: &model.NamedType{Type: clientIfaceName}},
 			{Type: model.PredeclaredType("error")},
 		},
-		Variadic: &model.Parameter{Name: "opts", Type: &model.NamedType{Package: "google.golang.org/grpc", Type: "CallOption"}},
+		Variadic: &model.Parameter{
+			Name: "opts", Type: &model.NamedType{Package: "google.golang.org/grpc", Type: "CallOption"},
+		},
 	}
 	serverMethod := &model.Method{
 		Name: m.GoName,
 		In: []*model.Parameter{
-			{Name: "blob", Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName}}},
+			{
+				Name: "blob", Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName,
+					},
+				},
+			},
 			{Name: "server", Type: &model.NamedType{Type: serverIfaceName}},
 		},
 		Out: []*model.Parameter{
@@ -128,7 +169,13 @@ func makeServerStreamMethods(m *protogen.Method) (*model.Method, *model.Method, 
 	clientIface.AddMethod(&model.Method{
 		Name: "Recv",
 		Out: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName,
+					},
+				},
+			},
 			{Type: model.PredeclaredType("error")},
 		},
 	})
@@ -139,7 +186,13 @@ func makeServerStreamMethods(m *protogen.Method) (*model.Method, *model.Method, 
 	serverIface.AddMethod(&model.Method{
 		Name: "Send",
 		In: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName,
+					},
+				},
+			},
 		},
 		Out: []*model.Parameter{
 			{Type: model.PredeclaredType("error")},
@@ -161,7 +214,9 @@ func makeClientStreamMethods(m *protogen.Method) (*model.Method, *model.Method, 
 			{Type: &model.NamedType{Type: clientIfaceName}},
 			{Type: model.PredeclaredType("error")},
 		},
-		Variadic: &model.Parameter{Name: "opts", Type: &model.NamedType{Package: "google.golang.org/grpc", Type: "CallOption"}},
+		Variadic: &model.Parameter{
+			Name: "opts", Type: &model.NamedType{Package: "google.golang.org/grpc", Type: "CallOption"},
+		},
 	}
 	serverMethod := &model.Method{
 		Name: m.GoName,
@@ -179,7 +234,13 @@ func makeClientStreamMethods(m *protogen.Method) (*model.Method, *model.Method, 
 	clientIface.AddMethod(&model.Method{
 		Name: "Send",
 		In: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName,
+					},
+				},
+			},
 		},
 		Out: []*model.Parameter{
 			{Type: model.PredeclaredType("error")},
@@ -188,7 +249,13 @@ func makeClientStreamMethods(m *protogen.Method) (*model.Method, *model.Method, 
 	clientIface.AddMethod(&model.Method{
 		Name: "CloseAndRecv",
 		Out: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName,
+					},
+				},
+			},
 			{Type: model.PredeclaredType("error")},
 		},
 	})
@@ -199,7 +266,13 @@ func makeClientStreamMethods(m *protogen.Method) (*model.Method, *model.Method, 
 	serverIface.AddMethod(&model.Method{
 		Name: "SendAndClose",
 		In: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName,
+					},
+				},
+			},
 		},
 		Out: []*model.Parameter{
 			{Type: model.PredeclaredType("error")},
@@ -208,7 +281,13 @@ func makeClientStreamMethods(m *protogen.Method) (*model.Method, *model.Method, 
 	serverIface.AddMethod(&model.Method{
 		Name: "Recv",
 		Out: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName,
+					},
+				},
+			},
 			{Type: model.PredeclaredType("error")},
 		},
 	})
@@ -228,7 +307,9 @@ func makeBidirectionalStreamMethods(m *protogen.Method) (*model.Method, *model.M
 			{Type: &model.NamedType{Type: clientIfaceName}},
 			{Type: model.PredeclaredType("error")},
 		},
-		Variadic: &model.Parameter{Name: "opts", Type: &model.NamedType{Package: "google.golang.org/grpc", Type: "CallOption"}},
+		Variadic: &model.Parameter{
+			Name: "opts", Type: &model.NamedType{Package: "google.golang.org/grpc", Type: "CallOption"},
+		},
 	}
 	serverMethod := &model.Method{
 		Name: m.GoName,
@@ -246,7 +327,13 @@ func makeBidirectionalStreamMethods(m *protogen.Method) (*model.Method, *model.M
 	clientIface.AddMethod(&model.Method{
 		Name: "Send",
 		In: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName,
+					},
+				},
+			},
 		},
 		Out: []*model.Parameter{
 			{Type: model.PredeclaredType("error")},
@@ -255,7 +342,13 @@ func makeBidirectionalStreamMethods(m *protogen.Method) (*model.Method, *model.M
 	clientIface.AddMethod(&model.Method{
 		Name: "Recv",
 		Out: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName,
+					},
+				},
+			},
 			{Type: model.PredeclaredType("error")},
 		},
 	})
@@ -266,7 +359,13 @@ func makeBidirectionalStreamMethods(m *protogen.Method) (*model.Method, *model.M
 	serverIface.AddMethod(&model.Method{
 		Name: "Send",
 		In: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Input.GoIdent.GoImportPath), Type: m.Input.GoIdent.GoName,
+					},
+				},
+			},
 		},
 		Out: []*model.Parameter{
 			{Type: model.PredeclaredType("error")},
@@ -275,7 +374,13 @@ func makeBidirectionalStreamMethods(m *protogen.Method) (*model.Method, *model.M
 	serverIface.AddMethod(&model.Method{
 		Name: "Recv",
 		Out: []*model.Parameter{
-			{Type: &model.PointerType{Type: &model.NamedType{Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName}}},
+			{
+				Type: &model.PointerType{
+					Type: &model.NamedType{
+						Package: string(m.Output.GoIdent.GoImportPath), Type: m.Output.GoIdent.GoName,
+					},
+				},
+			},
 			{Type: model.PredeclaredType("error")},
 		},
 	})
@@ -386,7 +491,10 @@ func baseServerStreamMethods() []*model.Method {
 
 func main() {
 	protogen.Options{}.Run(func(plugin *protogen.Plugin) error {
-		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
+		// plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
+		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_SUPPORTS_EDITIONS)
+		plugin.SupportedEditionsMinimum = descriptorpb.Edition_EDITION_PROTO3
+		plugin.SupportedEditionsMaximum = descriptorpb.Edition_EDITION_2024
 		for path, file := range plugin.FilesByPath {
 			if !file.Generate {
 				continue
