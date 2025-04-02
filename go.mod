@@ -1,4 +1,4 @@
-module github.com/sorcererxw/protoc-gen-go-grpc-mock
+module github.com/yugfletcher/protoc-gen-go-grpc-mock
 
 go 1.23.0
 
