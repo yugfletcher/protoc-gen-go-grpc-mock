@@ -491,10 +491,10 @@ func baseServerStreamMethods() []*model.Method {
 
 func main() {
 	protogen.Options{}.Run(func(plugin *protogen.Plugin) error {
-		// plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_SUPPORTS_EDITIONS)
 		plugin.SupportedEditionsMinimum = descriptorpb.Edition_EDITION_PROTO3
-		plugin.SupportedEditionsMaximum = descriptorpb.Edition_EDITION_2024
+		plugin.SupportedEditionsMaximum = descriptorpb.Edition_EDITION_MAX
+
 		for path, file := range plugin.FilesByPath {
 			if !file.Generate {
 				continue
